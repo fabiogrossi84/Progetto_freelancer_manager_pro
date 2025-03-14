@@ -32,14 +32,14 @@ class User(AbstractUser):
         verbose_name="Ruolo Utente"
     )
     
-    # Risolviamo il conflitto con `auth.User.groups`
+    # Risolvo il conflitto con `auth.User.groups`
     groups = models.ManyToManyField(
         Group,
         related_name="custom_user_set",
         blank=True
     )
     
-    # Risolviamo il conflitto con `auth.User.user_permissions`
+    # Risolvo il conflitto con `auth.User.user_permissions`
     user_permissions = models.ManyToManyField(
         Permission,
         related_name="custom_user_permissions_set",

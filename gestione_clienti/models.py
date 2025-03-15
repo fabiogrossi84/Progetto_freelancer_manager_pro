@@ -1,5 +1,7 @@
 from django.db import models
 from gestione_utenti.models import User
+from django.urls import reverse
+
 
 
 
@@ -42,6 +44,10 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    def get_absolute_url(self):
+        return reverse("cliente-detail", kwargs={"pk": self.pk}) #Redirect al dettaglio cliente
+    
     
 """ Modello progetto: memorizza i dettagli dei progetti associati ai clienti. """    
 

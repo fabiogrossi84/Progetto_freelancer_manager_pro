@@ -9,7 +9,9 @@ from django.core.exceptions import ValidationError
      Regole importanti:
      Una fattura può essere associata solo a un progetto o a un ticket, mai entrambi.
      Le fatture possono essere pagate o non pagate.
-     Solo gli admin e i freelance possono segnare una fattura come pagata. """
+     Solo gli admin e i freelance possono segnare una fattura come pagata. 
+     
+     Ho aggiunto una funzione per impedire la gestione fatture ai clienti."""
      
      # Create your models here.
 
@@ -40,3 +42,13 @@ class Fattura(models.Model):
         elif self.ticket:
             return f"Fattura {self.id} - Ticket {self.ticket.titolo} ({'Pagata' if self.pagata else 'Da Pagare'})"
         return f"Fattura {self.id} - Senza riferimento ({'Pagata' if self.pagata else 'Da Pagare'})"
+    
+    def save(self, *args, **kwargs):
+        
+        """ Blocca la modifica delle Fatture per i Clienti. """
+        
+        if self.cliente and self.cliente.freelance:
+            user = self.cliente.freelance
+            if not user.is_admin_app() and not user.is_freelance():
+                raise PermissionError("I Clienti non possono creare o modificare fatture.")
+        super().save(*args, **kwargs)

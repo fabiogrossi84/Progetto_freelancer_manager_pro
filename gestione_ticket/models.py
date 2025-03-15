@@ -6,7 +6,9 @@ from gestione_utenti.models import User
     I freelance assegnati possono gestire e risolvere i ticket.
     I ticket possono essere collegati a un progetto, ma possono anche essere indipendenti.
     Sistema di comunicazione interna nei ticket:
-    i clienti e i freelance possono scambiarsi messaggi. """
+    i clienti e i freelance possono scambiarsi messaggi. 
+    
+    Ho aggiunto una funzione che permette solo ad admin e freelance di chiudere i ticket. """
 
 # Create your models here.
 
@@ -36,6 +38,17 @@ class Ticket(models.Model):
     def __str__(self):
         return f"{self.titolo} ({self.get_stato_display()})"
     
+    def chiudi_ticket(self, user):
+       
+       """ Permette di chiudere un Ticket solo a Admin o Freelance. """
+   
+       if user.is_admin_app() or user.is_freelance():
+           self.stato = self.StatoTicket.RISOLTO
+           self.save()
+       else:
+           raise PermissionError("Solo Admin e Freelance possono chiudere i Ticket.")
+    
+
 class CommentoTicket(models.Model):
     
     """ Modello per i commenti all'interno di un Ticket.

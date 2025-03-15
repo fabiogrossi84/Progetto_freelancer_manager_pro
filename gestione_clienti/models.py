@@ -1,15 +1,24 @@
 from django.db import models
 from gestione_utenti.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.hashers import make_password
+
 
 """ Questa app si occupa della gestione dei clienti e dei progetti.
     Un progetto è associato a un cliente e ha uno stato di avanzamento,
     In Attesa, In Corso, Completato.
+    
     Il modello Cliente memorizza le informazioni dei clienti, 
     che possono avere più progetti e sono assegnati a un freelance.
     Contiene: 
     Nome, email, telefono, azienda
     Freelance assegnato (relazione con User)
-    Data di creazione. """
+    Data di creazione. 
+    
+    Aggiungo un segnale per creare in automatico un user cliente 
+    quando viene aggiunto un cliente e l'invio mail con psw, 
+    lo aggiungo con il file signals.py. """
 
 # Create your models here.
 
@@ -61,3 +70,4 @@ class Progetto(models.Model):
 
     def __str__(self):
         return f"{self.nome} ({self.cliente.nome})" #Restituisce stringa leggibile
+

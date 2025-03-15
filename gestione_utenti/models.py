@@ -24,11 +24,12 @@ class User(AbstractUser):
     class Ruolo(models.TextChoices):
         FREELANCE = "F", "Freelance"
         ADMIN = "A", "Admin"
+        CLIENTE = "C", "Cliente"
 
     ruolo = models.CharField(
         max_length=1,
         choices=Ruolo.choices,
-        default=Ruolo.FREELANCE,
+        default=Ruolo.CLIENTE,
         verbose_name="Ruolo Utente"
     )
     

@@ -33,6 +33,8 @@ class User(AbstractUser):
         verbose_name="Ruolo Utente"
     )
     
+    is_staff = models.BooleanField(default=False)  # Modificato per evitare errori con il superuser
+    
     # Risolvo il conflitto con `auth.User.groups`
     groups = models.ManyToManyField(
         Group,
@@ -62,7 +64,10 @@ class User(AbstractUser):
         """Restituisce True se l'utente è un Admin"""
         return self.ruolo == self.Ruolo.ADMIN  
 
-    @property
-    def is_staff(self):
-        """Django usa questo per l’accesso all'Admin Panel."""
-        return self.is_admin_app()    
+    def save(self, *args, **kwargs):
+        
+        """ Forza is_staff=True se l'utente è admin """
+        
+        if self.ruolo == self.Ruolo.ADMIN:
+            self.is_staff = True
+        super().save(*args, **kwargs)   

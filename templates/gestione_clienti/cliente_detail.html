@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ cliente.nome }}</h1>
+<p>Email: {{ cliente.email }}</p>
+<p>Azienda: {{ cliente.azienda }}</p>
+<a href="{% url 'cliente-update' cliente.id %}">Modifica</a> |
+<a href="{% url 'cliente-delete' cliente.id %}">Elimina</a>
+{% endblock %}

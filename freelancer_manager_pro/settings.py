@@ -59,7 +59,8 @@ ROOT_URLCONF = 'freelancer_manager_pro.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"], # Aggiunto per indicare la cartella dei template
+        'DIRS': [BASE_DIR / "templates"], # BASE_DIR / "templates" per mettere tutto dentro
+        # altrimenti serve base.html in ogni app (app/templates/app/base.html)
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,6 +104,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = "gestione_utenti.User" # Aggiorno il modello user customizzato da usare
 
 
 # Internationalization

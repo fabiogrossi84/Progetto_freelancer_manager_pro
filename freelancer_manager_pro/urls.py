@@ -20,5 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("gestione_clienti.urls")),  # Aggiungo le URL dell’app gestione_clienti
+    path("", include("home.urls")),  # Collego l'app home
     
 ]

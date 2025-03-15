@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'gestione_ticket',
     'gestione_fatture',
     'gestione_log',
+    "home",
 ]
 
 MIDDLEWARE = [

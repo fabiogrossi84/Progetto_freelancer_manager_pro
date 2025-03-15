@@ -59,7 +59,7 @@ ROOT_URLCONF = 'freelancer_manager_pro.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"], # Aggiunto per indicare la cartella dei template
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

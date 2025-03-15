@@ -1,8 +1,6 @@
 from django.db import models
 from gestione_utenti.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.contrib.auth.hashers import make_password
+
 
 
 """ Questa app si occupa della gestione dei clienti e dei progetti.
@@ -23,17 +21,18 @@ from django.contrib.auth.hashers import make_password
 # Create your models here.
 
 class Cliente(models.Model):
-    """
-    Modello per rappresentare i clienti. Ogni cliente è gestito da un freelance. """
     
-    freelance = models.ForeignKey(
-        User, on_delete=models.CASCADE, 
-        limit_choices_to={'ruolo': 'F'}, 
-        related_name="clienti_gestiti"
-    )
+    """ Modello per rappresentare i clienti. Ogni cliente è gestito da un freelance. 
+    
+    Ho aggiunto il collegamento del cliente con il suo user autogenerato. """
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profilo_cliente", null=True, blank=True)
+    freelance = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'ruolo': 'F'}, 
+        related_name="clienti_gestiti")
     nome = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
-    telefono = models.CharField(max_length=20, blank=True, null=True)
+    telefono_fisso = models.CharField(max_length=20, blank=True, null=True)
+    cellulare = models.CharField(max_length=20, blank=True, null=True)
     azienda = models.CharField(max_length=255, blank=True, null=True)
     data_creazione = models.DateTimeField(auto_now_add=True)
 
@@ -42,7 +41,7 @@ class Cliente(models.Model):
         verbose_name_plural = "Clienti"
 
     def __str__(self):
-        return self.nome
+        return self.user.username
     
 """ Modello progetto: memorizza i dettagli dei progetti associati ai clienti. """    
 

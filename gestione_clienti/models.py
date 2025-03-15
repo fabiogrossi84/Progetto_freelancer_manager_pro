@@ -43,7 +43,7 @@ class Cliente(models.Model):
         verbose_name_plural = "Clienti"
 
     def __str__(self):
-        return self.user.username
+        return self.user.username if self.user else self.nome
     
     def get_absolute_url(self):
         return reverse("cliente-detail", kwargs={"pk": self.pk}) #Redirect al dettaglio cliente

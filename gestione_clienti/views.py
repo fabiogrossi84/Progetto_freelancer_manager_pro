@@ -40,10 +40,33 @@ class ClienteCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return self.request.user.is_admin_app() or self.request.user.is_freelance()
-
+    
+    def get_form_kwargs(self):
+        """ Passo l'utente al form """
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user  # Passa l'utente corrente al form
+        return kwargs
+    
     def form_valid(self, form):
-        form.instance.freelance = self.request.user if self.request.user.is_freelance() else form.instance.freelance
+        """ Assegna sempre un Freelance al Cliente prima di salvarlo """
+
+        if self.request.user.is_freelance():
+            # Se il Freelance crea un Cliente, lo assegniamo automaticamente a lui
+            form.instance.freelance = self.request.user
+
+        elif form.cleaned_data.get("freelance"):
+            # Se l'Admin ha selezionato un Freelance, lo assegniamo
+            form.instance.freelance = form.cleaned_data.get("freelance")
+            
+        else:
+            # Se l'Admin non ha selezionato un Freelance, mostriamo un errore
+            form.add_error("freelance", "Devi selezionare un Freelance per questo Cliente.")
+            return self.form_invalid(form)
+
         return super().form_valid(form)
+
+
+
 
 # Modifica Cliente
 class ClienteUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

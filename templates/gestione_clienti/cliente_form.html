@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{ form.instance.pk|yesno:"Modifica Cliente,Nuovo Cliente" }}{% endblock %}
+
+{% block content %}
+<h2>{{ form.instance.pk|yesno:"Modifica Cliente,Nuovo Cliente" }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salva</button>
+</form>
+<a href="{% url 'cliente-list' %}">Annulla</a>
+{% endblock %}

@@ -66,8 +66,9 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         
-        """ Forza is_staff=True se l'utente è admin """
+        """ Assicura che il Superuser sia sempre Admin e Staff """
         
-        if self.ruolo == self.Ruolo.ADMIN:
+        if self.is_superuser:
+            self.ruolo = self.Ruolo.ADMIN
             self.is_staff = True
-        super().save(*args, **kwargs)   
+        super().save(*args, **kwargs)

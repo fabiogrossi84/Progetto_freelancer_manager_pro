@@ -1,4 +1,5 @@
 from django.db.models.signals import post_save
+from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django.contrib.auth.hashers import make_password
 from gestione_utenti.models import User
@@ -29,3 +30,9 @@ def crea_utente_cliente(sender, instance, created, **kwargs):
         instance.save(update_fields=['user'])  # Salva il Cliente aggiornato
         
         print(f"Cliente {instance.nome} registrato. Email: {instance.email} - Password: {password_generata}")
+        
+@receiver(post_delete, sender=Cliente)
+def elimina_utente_cliente(sender, instance, **kwargs):
+    """Cancella l'Utente associato quando un Cliente viene eliminato"""
+    if instance.user:
+        instance.user.delete()        

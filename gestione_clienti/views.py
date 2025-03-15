@@ -50,7 +50,8 @@ class ClienteUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Cliente
     form_class = ClienteForm
     template_name = "gestione_clienti/cliente_form.html"
-
+    success_url = reverse_lazy("cliente-list") # Redirect alla lista dei clienti
+    
     def test_func(self):
         cliente = self.get_object()
         return self.request.user.is_admin_app() or cliente.freelance == self.request.user

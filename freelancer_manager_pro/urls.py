@@ -16,10 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static # importo per le foto con debug=False
+
+from freelancer_manager_pro import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("gestione_clienti.urls")),  # Aggiungo le URL dell’app gestione_clienti
     path("", include("home.urls")),  # Collego l'app home
     
-]
+] #+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]) # lo tolgo con debug=True
+
+"""if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])"""
+    
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])    

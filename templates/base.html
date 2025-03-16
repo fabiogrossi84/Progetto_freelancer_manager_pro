@@ -3,64 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Freelancer Manager{% endblock %}</title>
+    <title>{% block title %}Freelancer Manager Pro{% endblock %}</title>
     <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script defer>
+      function toggleMenu() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+      }
+    </script>
 </head>
-<body class="bg-gray-100 font-sans flex flex-col min-h-screen"> <!-- FOOTER forzato in basso -->
+<body class="bg-white font-sans flex flex-col min-h-screen">
 
     <!-- Header -->
-    <header class="bg-blue-900 text-white p-4 text-center shadow">
+    <header class="bg-green-500 text-white shadow">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <h1 class="text-2xl font-bold">Freelancer Manager Pro</h1>
+        <div class="hidden md:flex space-x-6 items-center">
+          {% if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="hover:underline">Logout</button>
+            </form>
+          {% else %}
+            <a href="{% url 'login' %}" class="hover:underline">Login</a>
+          {% endif %}
+        </div>
+        <button class="md:hidden text-white" onclick="toggleMenu()">
+          &#9776;
+        </button>
+      </div>
+
+      <!-- Navbar Menu -->
+      <nav class="bg-green-600 text-white hidden md:flex justify-center space-x-6 py-3">
+        <a href="{% url 'home' %}" class="hover:underline">🏠 Home</a>
+        {% if user.is_authenticated %}
+          {% if user.ruolo == "A" %}
+            <a href="{% url 'cliente-list' %}" class="hover:underline">Clienti</a>
+            <a href="#" class="hover:underline">Progetti</a>
+            <a href="#" class="hover:underline">Ticket</a>
+            <a href="#" class="hover:underline">Fatture</a>
+            <a href="#" class="hover:underline">Log</a>
+          {% elif user.ruolo == "F" %}
+            <a href="#" class="hover:underline">Progetti</a>
+            <a href="#" class="hover:underline">Ticket</a>
+            {% if user.freelancepro %}
+              <a href="{% url 'cliente-list' %}" class="hover:underline">Clienti</a>
+              <a href="#" class="hover:underline">Fatture</a>
+            {% endif %}
+          {% elif user.ruolo == "C" %}
+            <a href="{% url 'dashboard_cliente' %}" class="hover:underline">Dashboard</a>
+            <a href="#" class="hover:underline">Progetti</a>
+            <a href="#" class="hover:underline">Ticket</a>
+            <a href="{% url 'password_change' %}" class="hover:underline">Cambia Password</a>
+          {% endif %}
+        {% endif %}
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="bg-green-600 text-white px-6 py-4 hidden md:hidden">
+        <a href="{% url 'home' %}" class="block mb-2 hover:underline">🏠 Home</a>
+        {% if user.is_authenticated %}
+          {% if user.ruolo == "A" %}
+            <a href="{% url 'cliente-list' %}" class="block mb-2 hover:underline">Clienti</a>
+            <a href="#" class="block mb-2 hover:underline">Progetti</a>
+            <a href="#" class="block mb-2 hover:underline">Ticket</a>
+            <a href="#" class="block mb-2 hover:underline">Fatture</a>
+            <a href="#" class="block mb-2 hover:underline">Log</a>
+          {% elif user.ruolo == "F" %}
+            <a href="#" class="block mb-2 hover:underline">Progetti</a>
+            <a href="#" class="block mb-2 hover:underline">Ticket</a>
+            {% if user.freelancepro %}
+              <a href="{% url 'cliente-list' %}" class="block mb-2 hover:underline">Clienti</a>
+              <a href="#" class="block mb-2 hover:underline">Fatture</a>
+            {% endif %}
+          {% elif user.ruolo == "C" %}
+            <a href="{% url 'dashboard_cliente' %}" class="block mb-2 hover:underline">Dashboard</a>
+            <a href="#" class="block mb-2 hover:underline">Progetti</a>
+            <a href="#" class="block mb-2 hover:underline">Ticket</a>
+            <a href="{% url 'password_change' %}" class="block hover:underline">Cambia Password</a>
+          {% endif %}
+          <form action="{% url 'logout' %}" method="post" class="mt-2">
+            {% csrf_token %}
+            <button type="submit" class="hover:underline">Logout</button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}" class="block mt-2 hover:underline">Login</a>
+        {% endif %}
+      </div>
     </header>
 
-    <!-- Navbar dinamica -->
-    <nav class="bg-blue-800 text-white p-3 flex justify-center space-x-6 shadow">
-      {% if user.is_authenticated %}
-        <a href="{% url 'home' %}" class="hover:underline">🏠 Home</a>
-
-        {% if user.ruolo == "A" %}
-          <a href="{% url 'cliente-list' %}" class="hover:underline">Clienti</a>
-          <a href="#" class="hover:underline">Progetti</a>
-          <a href="#" class="hover:underline">Ticket</a>
-          <a href="#" class="hover:underline">Fatture</a>
-          <a href="#" class="hover:underline">Log</a>
-        {% elif user.ruolo == "F" %}
-          <a href="#" class="hover:underline">Progetti</a>
-          <a href="#" class="hover:underline">Ticket</a>
-          {% if user.freelancepro %}
-            <a href="{% url 'cliente-list' %}" class="hover:underline">Clienti</a>
-            <a href="#" class="hover:underline">Fatture</a>
-          {% endif %}
-        {% elif user.ruolo == "C" %}
-          <a href="{% url 'dashboard_cliente' %}" class="hover:underline">Dashboard</a>
-          <a href="#" class="hover:underline">Progetti</a>
-          <a href="#" class="hover:underline">Ticket</a>
-          <a href="{% url 'password_change' %}" class="hover:underline">Cambia Password</a>
-        {% endif %}
-
-        <!-- Logout -->
-        <form action="{% url 'logout' %}" method="post" class="inline">
-          {% csrf_token %}
-          <button type="submit" class="hover:underline bg-transparent text-white border-none cursor-pointer">
-            Logout
-          </button>
-        </form>
-      {% endif %}
-    </nav>
-
     <!-- Main content -->
-    <main class="flex-grow max-w-4xl mx-auto mt-6 p-4 bg-white rounded shadow">
+    <main class="flex-grow">
         {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer class="bg-blue-900 text-white mt-8 p-4 text-center text-sm">
-        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+    <footer class="bg-green-500 text-white p-4 text-center text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
             <p>&copy; 2025 Freelancer Manager Pro. Tutti i diritti riservati.</p>
             <p>
                 Supporto: 
-                <a href="mailto:support@freelancermanager.com" class="underline hover:text-green-400">
+                <a href="mailto:support@freelancermanager.com" class="underline hover:text-white">
                     support@freelancermanager.com
                 </a>
             </p>

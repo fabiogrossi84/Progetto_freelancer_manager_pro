@@ -20,7 +20,12 @@
         <a href="#" class="hover:underline">Progetti</a>
         <a href="#" class="hover:underline">Ticket</a>
         <a href="{% url 'dashboard_cliente' %}" class="hover:underline">Dashboard</a>
-        <a href="{% url 'logout' %}" class="hover:underline">Logout</a>
+        <form action="{% url 'logout' %}" method="post" class="inline">
+            {% csrf_token %}
+            <button type="submit" class="hover:underline bg-transparent text-white border-none cursor-pointer">
+              Logout
+            </button>
+          </form>
     </nav>
 
     <!-- Main content -->

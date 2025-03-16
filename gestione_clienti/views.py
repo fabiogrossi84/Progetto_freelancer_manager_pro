@@ -35,9 +35,21 @@ class ClienteDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Cliente
     template_name = "gestione_clienti/cliente_detail.html"
 
+    """def test_func(self):
+        cliente = self.get_object()
+        return self.request.user.is_admin_app() or cliente.freelance == self.request.user"""
+        
+    """ Cambio funzione perchè il cliente non vede i suoi dettagli """  
+    
     def test_func(self):
         cliente = self.get_object()
-        return self.request.user.is_admin_app() or cliente.freelance == self.request.user
+        user = self.request.user
+        return (
+            user.is_admin_app()
+            or cliente.freelance == user
+            or cliente.user == user  # Cliente accede al proprio dettaglio
+    )
+  
 
 # Creazione Cliente (Solo Admin e Freelance)
 class ClienteCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):

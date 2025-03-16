@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-4">Benvenuto, {{ cliente.nome }}</h1>
+
+  <div class="bg-gray-100 p-4 rounded shadow mb-6">
+    <h2 class="text-xl font-semibold mb-2">I tuoi dati</h2>
+    <p><strong>Email:</strong> {{ cliente.email }}</p>
+    <p><strong>Azienda:</strong> {{ cliente.azienda }}</p>
+    <p><strong>Telefono:</strong> {{ cliente.telefono_fisso }} / {{ cliente.cellulare }}</p>
+    <p><strong>Registrato il:</strong> {{ cliente.data_creazione|date:"d/m/Y" }}</p>
+    <p><strong>Freelance assegnato:</strong> {{ cliente.freelance.get_full_name }}</p>
+  </div>
+
+  <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="bg-white p-4 rounded shadow text-center">
+      <p class="text-sm text-gray-500">Totale Progetti</p>
+      <p class="text-2xl font-bold">{{ totale }}</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow text-center">
+      <p class="text-sm text-gray-500">In Corso</p>
+      <p class="text-2xl font-bold">{{ in_corso }}</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow text-center">
+      <p class="text-sm text-gray-500">Completati</p>
+      <p class="text-2xl font-bold">{{ completati }}</p>
+    </div>
+  </div>
+
+  <div class="bg-gray-100 p-4 rounded shadow">
+    <h2 class="text-xl font-semibold mb-4">Progetti Attivi</h2>
+    <table class="w-full text-left">
+      <thead>
+        <tr>
+          <th class="py-2">Nome</th>
+          <th class="py-2">Stato</th>
+          <th class="py-2">Budget</th>
+          <th class="py-2">Scadenza</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for progetto in progetti %}
+        <tr class="border-t">
+          <td class="py-2">{{ progetto.nome }}</td>
+          <td class="py-2">
+            {% if progetto.stato == "IC" %}
+              <span class="text-yellow-500 font-semibold">In Corso</span>
+            {% elif progetto.stato == "CO" %}
+              <span class="text-green-600 font-semibold">Completato</span>
+            {% else %}
+              <span class="text-gray-600">In Attesa</span>
+            {% endif %}
+          </td>
+          <td class="py-2">{{ progetto.budget }} €</td>
+          <td class="py-2">{{ progetto.scadenza|date:"d/m/Y" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="py-2 text-center text-gray-500">Nessun progetto attivo.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

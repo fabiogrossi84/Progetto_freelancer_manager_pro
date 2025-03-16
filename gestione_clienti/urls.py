@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ClienteListView, ClienteDetailView, ClienteCreateView, ClienteUpdateView, ClienteDeleteView
+from .views import ClienteListView, ClienteDetailView, ClienteCreateView, ClienteUpdateView, ClienteDeleteView, dashboard_cliente
 from django.contrib.auth import views as auth_views # Importo le viste di autenticazione di Django
 
 urlpatterns = [
@@ -11,4 +11,9 @@ urlpatterns = [
     # Cambio password obbligatorio per Clienti
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='registration/password_change.html'), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='registration/password_change_done.html'), name='password_change_done'),
+    # percorso dashboard cliente
+    path('cliente/dashboard/', dashboard_cliente, name='dashboard_cliente'),
+    # percorso login cliente
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
 ]

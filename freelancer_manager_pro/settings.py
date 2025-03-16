@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     "home",
 ]
 
+LOGIN_REDIRECT_URL = '/cliente/dashboard/'  # Dopo login, va alla dashboard cliente
+LOGOUT_REDIRECT_URL = '/login/'            # Dopo logout, torna alla pagina di login
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

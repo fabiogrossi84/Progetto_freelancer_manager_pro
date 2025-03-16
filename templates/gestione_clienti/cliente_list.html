@@ -1,23 +1,22 @@
 {% extends "base.html" %}
-
 {% block title %}Lista Clienti{% endblock %}
 
 {% block content %}
-<h2>Lista Clienti</h2>
+<div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Lista Clienti</h2>
+    <a href="{% url 'cliente-create' %}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+        ➕ Aggiungi Cliente
+    </a>
+</div>
 
-<!-- Bottone per aggiungere un nuovo cliente -->
-<p><a href="{% url 'cliente-create' %}" style="padding: 10px; background: green; color: white; text-decoration: none; border-radius: 5px;">➕ Aggiungi Cliente</a></p>
-
-<!-- Lista dei clienti -->
-<ul>
+<ul class="space-y-2">
     {% for cliente in clienti %}
-        <li>
-            <a href="{% url 'cliente-detail' cliente.id %}">{{ cliente.nome }}</a>
+        <li class="p-4 bg-gray-100 rounded shadow hover:bg-gray-200 transition">
+            <a href="{% url 'cliente-detail' cliente.id %}" class="text-blue-700 font-semibold">{{ cliente.nome }}</a>
         </li>
     {% empty %}
-        <p>❌ Nessun cliente disponibile.</p>
+        <p class="text-red-500">❌ Nessun cliente disponibile.</p>
     {% endfor %}
 </ul>
-
 {% endblock %}
 

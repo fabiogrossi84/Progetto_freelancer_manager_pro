@@ -15,11 +15,11 @@ class ClienteListView(LoginRequiredMixin, ListView):
     context_object_name = "clienti"
     
     """ Indirizzo il cliente al primo login a cambiare la password """
-    def dispatch(self, request, *args, **kwargs):
+    """def dispatch(self, request, *args, **kwargs):
         user = request.user
         if user.ruolo == "C" and user.check_password("cliente-123"):
             return redirect(reverse("password_change"))
-        return super().dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)"""
     
     def get_queryset(self):
         user = self.request.user
@@ -94,3 +94,25 @@ class ClienteDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.is_admin_app()
+    
+@login_required # (è una funzione e non modifica oggetti)
+def dashboard_cliente(request):
+    user = request.user
+    if user.ruolo == "C" and user.check_password("cliente-123"):
+        return redirect("password_change")
+
+    cliente = get_object_or_404(Cliente, user=user)
+    progetti = cliente.progetti.all()
+
+    totale = progetti.count()
+    in_corso = progetti.filter(stato="IC").count()
+    completati = progetti.filter(stato="CO").count()
+
+    context = {
+        "cliente": cliente,
+        "progetti": progetti,
+        "totale": totale,
+        "in_corso": in_corso,
+        "completati": completati
+    }
+    return render(request, "gestione_clienti/dashboard_cliente.html", context)    

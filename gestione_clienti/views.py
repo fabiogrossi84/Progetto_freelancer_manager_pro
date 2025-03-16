@@ -5,6 +5,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Cliente
 from .forms import ClienteForm
+from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.contrib import messages
 
 # Create your views here.
 
@@ -127,4 +129,26 @@ def dashboard_cliente(request):
         "in_corso": in_corso,
         "completati": completati
     }
-    return render(request, "gestione_clienti/dashboard_cliente.html", context)    
+    return render(request, "gestione_clienti/dashboard_cliente.html", context)   
+
+#vista per rindirizzare i clienti loggati alla dashboard
+
+class CustomLoginView(LoginView):
+    def get_success_url(self):
+        user = self.request.user
+        if user.ruolo == "C":
+            return reverse_lazy('dashboard_cliente')
+        else:
+            return reverse_lazy('cliente-list')
+        
+#classe per salvare password e reindirizzare
+
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = 'registration/password_change.html'
+    success_url = reverse_lazy('dashboard_cliente')  # Redirect sicuro    
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "✅ Password modificata con successo!")
+        return response    
+        

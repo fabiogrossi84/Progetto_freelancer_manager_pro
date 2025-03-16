@@ -14,7 +14,7 @@ def crea_utente_cliente(sender, instance, created, **kwargs):
         MA prima di salvare un cliente devo creare l'utente."""
     
     if created and instance.user is None:  # Se il cliente non ha ancora un user
-        password_generata = "cliente-123" # get_random_string(12) 
+        password_generata = "cliente-123"  
         # ho impostato una psw fissa."
         user = User.objects.create(
             username=instance.email,

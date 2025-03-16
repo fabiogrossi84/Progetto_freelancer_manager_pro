@@ -16,13 +16,19 @@ class UserAdminForm(forms.ModelForm):
         is_staff = cleaned_data.get("is_staff")
         is_freelance_pro = cleaned_data.get("is_freelance_pro")
 
+        # 🔐 Solo Freelance può avere is_freelance_pro / is_staff
+        if ruolo != "F" and is_freelance_pro:
+            raise forms.ValidationError("Solo i Freelance possono essere Pro.")
+        if ruolo == "C" and is_staff:
+            raise forms.ValidationError("Un Cliente non può avere accesso al backend (is_staff).")
+        
         # 🔐 Solo Freelance Pro può avere is_staff=True
         if ruolo == "F":
             if is_freelance_pro and not is_staff:
                 raise forms.ValidationError("Un Freelance Pro deve avere is_staff=True.")
             if not is_freelance_pro and is_staff:
                 raise forms.ValidationError("Un Freelance Limitato non può avere is_staff=True.")
-        return cleaned_data
+        return cleaned_data        
 
 
 #admin.site.register(User)

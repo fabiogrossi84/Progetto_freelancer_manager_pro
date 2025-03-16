@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.contrib.auth.hashers import make_password
 from gestione_utenti.models import User
 from .models import Cliente
-from django.utils.crypto import get_random_string
+# from django.utils.crypto import get_random_string
 
 @receiver(post_save, sender=Cliente)
 def crea_utente_cliente(sender, instance, created, **kwargs):
@@ -14,8 +14,8 @@ def crea_utente_cliente(sender, instance, created, **kwargs):
         MA prima di salvare un cliente devo creare l'utente."""
     
     if created and instance.user is None:  # Se il cliente non ha ancora un user
-        password_generata = get_random_string(12) 
-        # ho tolto "User.objects.make_random_password() e genero psw casuale."
+        password_generata = "cliente-123" # get_random_string(12) 
+        # ho impostato una psw fissa."
         user = User.objects.create(
             username=instance.email,
             email=instance.email,

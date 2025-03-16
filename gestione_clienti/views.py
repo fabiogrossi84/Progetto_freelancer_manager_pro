@@ -109,7 +109,40 @@ class ClienteDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         return self.request.user.is_admin_app()
     
-@login_required # (è una funzione e non modifica oggetti)
+    # nuova funzione per concedere accesso solo al cliente
+    
+@login_required
+def dashboard_cliente(request):
+    user = request.user
+
+    # 🔒 Blocca accesso a chi NON è Cliente
+    if user.ruolo != "C":
+        return redirect("cliente-list")  # Admin e Freelance vanno alla lista clienti
+
+    # 🔐 Se Cliente ha ancora la password fissa, forza cambio password
+    if user.check_password("cliente-123"):
+        return redirect("password_change")
+
+    # ✅ Recupera i dati cliente
+    cliente = get_object_or_404(Cliente, user=user)
+    progetti = cliente.progetti.all()
+
+    totale = progetti.count()
+    in_corso = progetti.filter(stato="IC").count()
+    completati = progetti.filter(stato="CO").count()
+
+    context = {
+        "cliente": cliente,
+        "progetti": progetti,
+        "totale": totale,
+        "in_corso": in_corso,
+        "completati": completati
+    }
+    return render(request, "gestione_clienti/dashboard_cliente.html", context)
+
+    
+    
+"""@login_required # (è una funzione e non modifica oggetti)
 def dashboard_cliente(request):
     user = request.user
     if user.ruolo == "C" and user.check_password("cliente-123"):
@@ -129,7 +162,7 @@ def dashboard_cliente(request):
         "in_corso": in_corso,
         "completati": completati
     }
-    return render(request, "gestione_clienti/dashboard_cliente.html", context)   
+    return render(request, "gestione_clienti/dashboard_cliente.html", context)"""   
 
 #vista per rindirizzare i clienti loggati alla dashboard
 

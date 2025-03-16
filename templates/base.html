@@ -7,31 +7,65 @@
     <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100 font-sans flex flex-col min-h-screen"> <!-- FOOTER forzato in basso -->
 
     <!-- Header -->
-    <header class="bg-blue-700 text-white p-4 text-center shadow">
+    <header class="bg-blue-900 text-white p-4 text-center shadow">
         <h1 class="text-2xl font-bold">Freelancer Manager Pro</h1>
     </header>
 
-    <!-- Navbar -->
-    <nav class="bg-blue-600 text-white p-3 flex justify-center space-x-6 shadow">
-        <a href="{% url 'cliente-list' %}" class="hover:underline">Clienti</a>
-        <a href="#" class="hover:underline">Progetti</a>
-        <a href="#" class="hover:underline">Ticket</a>
-        <a href="{% url 'dashboard_cliente' %}" class="hover:underline">Dashboard</a>
+    <!-- Navbar dinamica -->
+    <nav class="bg-blue-800 text-white p-3 flex justify-center space-x-6 shadow">
+      {% if user.is_authenticated %}
+        <a href="{% url 'home' %}" class="hover:underline">🏠 Home</a>
+
+        {% if user.ruolo == "A" %}
+          <a href="{% url 'cliente-list' %}" class="hover:underline">Clienti</a>
+          <a href="#" class="hover:underline">Progetti</a>
+          <a href="#" class="hover:underline">Ticket</a>
+          <a href="#" class="hover:underline">Fatture</a>
+          <a href="#" class="hover:underline">Log</a>
+        {% elif user.ruolo == "F" %}
+          <a href="#" class="hover:underline">Progetti</a>
+          <a href="#" class="hover:underline">Ticket</a>
+          {% if user.freelancepro %}
+            <a href="{% url 'cliente-list' %}" class="hover:underline">Clienti</a>
+            <a href="#" class="hover:underline">Fatture</a>
+          {% endif %}
+        {% elif user.ruolo == "C" %}
+          <a href="{% url 'dashboard_cliente' %}" class="hover:underline">Dashboard</a>
+          <a href="#" class="hover:underline">Progetti</a>
+          <a href="#" class="hover:underline">Ticket</a>
+          <a href="{% url 'password_change' %}" class="hover:underline">Cambia Password</a>
+        {% endif %}
+
+        <!-- Logout -->
         <form action="{% url 'logout' %}" method="post" class="inline">
-            {% csrf_token %}
-            <button type="submit" class="hover:underline bg-transparent text-white border-none cursor-pointer">
-              Logout
-            </button>
-          </form>
+          {% csrf_token %}
+          <button type="submit" class="hover:underline bg-transparent text-white border-none cursor-pointer">
+            Logout
+          </button>
+        </form>
+      {% endif %}
     </nav>
 
     <!-- Main content -->
-    <main class="max-w-4xl mx-auto mt-6 p-4 bg-white rounded shadow">
+    <main class="flex-grow max-w-4xl mx-auto mt-6 p-4 bg-white rounded shadow">
         {% block content %}{% endblock %}
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white mt-8 p-4 text-center text-sm">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+            <p>&copy; 2025 Freelancer Manager Pro. Tutti i diritti riservati.</p>
+            <p>
+                Supporto: 
+                <a href="mailto:support@freelancermanager.com" class="underline hover:text-green-400">
+                    support@freelancermanager.com
+                </a>
+            </p>
+        </div>
+    </footer>
 
 </body>
 </html>

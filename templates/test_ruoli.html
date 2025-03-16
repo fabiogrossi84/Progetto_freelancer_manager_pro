@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Test Ruoli e Menu{% endblock %}
+
+{% block content %}
+<div class="bg-white p-6 rounded shadow max-w-xl mx-auto">
+    <h2 class="text-2xl font-bold text-blue-900 mb-4">🔍 Test Ruolo Attuale</h2>
+
+    <p class="text-gray-700 mb-2"><strong>Utente:</strong> {{ request.user.username }}</p>
+    <p class="text-gray-700 mb-2"><strong>Ruolo:</strong> 
+        {% if request.user.ruolo == "A" %}
+            <span class="text-green-600 font-semibold">Admin</span>
+        {% elif request.user.ruolo == "F" %}
+            <span class="text-green-600 font-semibold">Freelance</span> 
+            {% if request.user.freelancepro %}
+                <span class="text-blue-600">(Pro)</span>
+            {% else %}
+                <span class="text-gray-500">(Limitato)</span>
+            {% endif %}
+        {% elif request.user.ruolo == "C" %}
+            <span class="text-green-600 font-semibold">Cliente</span>
+        {% endif %}
+    </p>
+
+    <hr class="my-4">
+
+    <h3 class="text-lg font-semibold text-blue-800 mb-2">🔗 Link Rapidi per Test:</h3>
+    <ul class="space-y-2 text-blue-700">
+        {% if request.user.ruolo == "C" %}
+            <li><a href="{% url 'dashboard_cliente' %}" class="underline hover:text-green-600">🏠 Vai alla Dashboard Cliente</a></li>
+            <li><a href="{% url 'password_change' %}" class="underline hover:text-green-600">🔒 Cambia Password</a></li>
+        {% elif request.user.ruolo == "A" or request.user.ruolo == "F" %}
+            <li><a href="{% url 'cliente-list' %}" class="underline hover:text-green-600">📁 Lista Clienti</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

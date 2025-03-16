@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4#ef$j)o9o8+_nm&u2qj1@=k5@9sx%k$wq&@@*ev&x%xf)(+ho'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False # Solo con DEBUG=False Django mostra 404 custom
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # Per test locale, usa '*' o ['127.0.0.1', 'localhost']
 
 
 # Application definition

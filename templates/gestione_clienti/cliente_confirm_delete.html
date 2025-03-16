@@ -4,12 +4,17 @@
 {% block content %}
 <div class="max-w-md mx-auto bg-white p-6 rounded shadow text-center">
     <h2 class="text-xl font-semibold mb-4 text-red-600">⚠ Sei sicuro di voler eliminare "{{ object }}"?</h2>
+
     <form method="post" class="space-y-4">
         {% csrf_token %}
         <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">
             ✅ Sì, elimina
         </button>
     </form>
-    <a href="{% url 'cliente-list' %}" class="text-blue-600 underline mt-4 inline-block">Annulla</a>
+
+    <a href="{% url 'cliente-list' %}" class="text-blue-700 underline mt-4 inline-block hover:text-blue-900">
+        ⬅ Annulla
+    </a>
 </div>
 {% endblock %}
+

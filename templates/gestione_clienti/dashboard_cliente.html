@@ -1,22 +1,24 @@
 {% extends "base.html" %}
+{% block title %}Dashboard Cliente{% endblock %}
+
 {% block content %}
 <div class="container mx-auto p-6">
-  <h1 class="text-2xl font-bold mb-4">Benvenuto, {{ cliente.nome }}</h1>
+  <h1 class="text-2xl font-bold text-blue-900 mb-4">Benvenuto, {{ cliente.nome }}</h1>
 
   <!-- messaggio di successo -->
   {% if messages %}
-  <div class="mb-4">
-    {% for message in messages %}
-      <div class="bg-green-100 text-green-700 p-3 rounded shadow">
-        {{ message }}
-      </div>
-    {% endfor %}
-  </div>
-{% endif %}
+    <div class="mb-4 space-y-2">
+      {% for message in messages %}
+        <div class="bg-green-100 text-green-700 p-3 rounded shadow">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 
-
-  <div class="bg-gray-100 p-4 rounded shadow mb-6">
-    <h2 class="text-xl font-semibold mb-2">I tuoi dati</h2>
+  <!-- Dati Cliente -->
+  <div class="bg-gray-50 p-4 rounded shadow mb-6">
+    <h2 class="text-xl font-semibold mb-2 text-blue-800">I tuoi dati</h2>
     <p><strong>Email:</strong> {{ cliente.email }}</p>
     <p><strong>Azienda:</strong> {{ cliente.azienda }}</p>
     <p><strong>Telefono:</strong> {{ cliente.telefono_fisso }} / {{ cliente.cellulare }}</p>
@@ -24,26 +26,28 @@
     <p><strong>Freelance assegnato:</strong> {{ cliente.freelance.get_full_name }}</p>
   </div>
 
-  <div class="grid grid-cols-3 gap-4 mb-6">
+  <!-- Box Statistiche -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
     <div class="bg-white p-4 rounded shadow text-center">
       <p class="text-sm text-gray-500">Totale Progetti</p>
-      <p class="text-2xl font-bold">{{ totale }}</p>
+      <p class="text-2xl font-bold text-blue-900">{{ totale }}</p>
     </div>
     <div class="bg-white p-4 rounded shadow text-center">
       <p class="text-sm text-gray-500">In Corso</p>
-      <p class="text-2xl font-bold">{{ in_corso }}</p>
+      <p class="text-2xl font-bold text-yellow-600">{{ in_corso }}</p>
     </div>
     <div class="bg-white p-4 rounded shadow text-center">
       <p class="text-sm text-gray-500">Completati</p>
-      <p class="text-2xl font-bold">{{ completati }}</p>
+      <p class="text-2xl font-bold text-green-600">{{ completati }}</p>
     </div>
   </div>
 
-  <div class="bg-gray-100 p-4 rounded shadow">
-    <h2 class="text-xl font-semibold mb-4">Progetti Attivi</h2>
+  <!-- Tabella Progetti -->
+  <div class="bg-gray-50 p-4 rounded shadow">
+    <h2 class="text-xl font-semibold mb-4 text-blue-800">Progetti Attivi</h2>
     <table class="w-full text-left">
       <thead>
-        <tr>
+        <tr class="border-b text-gray-700">
           <th class="py-2">Nome</th>
           <th class="py-2">Stato</th>
           <th class="py-2">Budget</th>
@@ -52,11 +56,11 @@
       </thead>
       <tbody>
         {% for progetto in progetti %}
-        <tr class="border-t">
+        <tr class="border-t hover:bg-green-50 transition">
           <td class="py-2">{{ progetto.nome }}</td>
           <td class="py-2">
             {% if progetto.stato == "IC" %}
-              <span class="text-yellow-500 font-semibold">In Corso</span>
+              <span class="text-yellow-600 font-semibold">In Corso</span>
             {% elif progetto.stato == "CO" %}
               <span class="text-green-600 font-semibold">Completato</span>
             {% else %}
@@ -74,3 +78,4 @@
   </div>
 </div>
 {% endblock %}
+

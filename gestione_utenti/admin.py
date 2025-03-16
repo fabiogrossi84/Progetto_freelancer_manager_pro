@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import User
 from django import forms
+from django.contrib.auth.hashers import make_password
 
 # Register your models here.
 
@@ -55,7 +56,7 @@ class UserAdmin(admin.ModelAdmin):
     )
 
     
-    # 🔐 Limita l'accesso ai campi is_active       
+    # 🔐 Limita l'accesso ai campi is_active solo all'admin      
     def get_readonly_fields(self, request, obj=None):
         readonly = []
         if not request.user.is_superuser:
@@ -70,5 +71,11 @@ class UserAdmin(admin.ModelAdmin):
             return False  # Freelance limitato → bloccato
         return super().has_module_permission(request)
 
-
+    # 🔐 Cifra automaticamente la password se scritta nel backend
+    from django.contrib.auth.hashers import make_password
+    def save_model(self, request, obj, form, change):
+        raw_password = form.cleaned_data.get('password')
+        if raw_password and not raw_password.startswith('pbkdf2_'):
+            obj.password = make_password(raw_password)
+        super().save_model(request, obj, form, change)
     

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Cliente
 from .forms import ClienteForm
@@ -13,7 +13,14 @@ class ClienteListView(LoginRequiredMixin, ListView):
     model = Cliente
     template_name = "gestione_clienti/cliente_list.html"
     context_object_name = "clienti"
-
+    
+    """ Indirizzo il cliente al primo login a cambiare la password """
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+        if user.ruolo == "C" and user.check_password("cliente-123"):
+            return redirect(reverse("password_change"))
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_queryset(self):
         user = self.request.user
         if user.is_admin_app():

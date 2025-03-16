@@ -15,8 +15,13 @@ class UserAdminForm(forms.ModelForm):
         ruolo = cleaned_data.get("ruolo")
         is_staff = cleaned_data.get("is_staff")
         is_freelance_pro = cleaned_data.get("is_freelance_pro")
-
-        # 🔐 Solo Freelance può avere is_freelance_pro / is_staff
+        is_superuser = cleaned_data.get("is_superuser")
+        
+        # 🔐 Solo Admin può avere is_superuser=True
+        if ruolo != "A" and is_superuser:
+            raise forms.ValidationError("Solo l'Admin può avere is_superuser=True.")
+        
+        # 🔐 Solo Freelance può essere Pro
         if ruolo != "F" and is_freelance_pro:
             raise forms.ValidationError("Solo i Freelance possono essere Pro.")
         if ruolo == "C" and is_staff:
@@ -28,8 +33,12 @@ class UserAdminForm(forms.ModelForm):
                 raise forms.ValidationError("Un Freelance Pro deve avere is_staff=True.")
             if not is_freelance_pro and is_staff:
                 raise forms.ValidationError("Un Freelance Limitato non può avere is_staff=True.")
-        return cleaned_data        
-
+            
+        return cleaned_data    
+     
+    
+        
+        
 
 #admin.site.register(User)
 
@@ -41,10 +50,19 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = ("ruolo", "is_freelance_pro", "is_staff")
     fieldsets = (
         (None, {"fields": ("username", "email", "password")}),
-        ("Permessi", {"fields": ("ruolo", "is_staff", "is_superuser", "is_freelance_pro")}),
+        ("Permessi", {"fields": ("ruolo", "is_active" , "is_staff", "is_superuser", "is_freelance_pro")}),
         ("Informazioni personali", {"fields": ("first_name", "last_name")}),
     )
 
+    
+    # 🔐 Limita l'accesso ai campi is_active       
+    def get_readonly_fields(self, request, obj=None):
+        readonly = []
+        if not request.user.is_superuser:
+            readonly.append("is_active")  # Solo Admin può modificarlo
+        return readonly
+    
+    
     # limito l'accesso al pannello admin al freelance non pro
 
     def has_module_permission(self, request):
@@ -53,4 +71,4 @@ class UserAdmin(admin.ModelAdmin):
         return super().has_module_permission(request)
 
 
-
+    

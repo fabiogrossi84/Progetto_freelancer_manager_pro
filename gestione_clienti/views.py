@@ -59,8 +59,10 @@ class ClienteCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = ClienteForm
     template_name = "gestione_clienti/cliente_form.html"
 
+#modifico dopo aggiunta di freelance pro
     def test_func(self):
-        return self.request.user.is_admin_app() or self.request.user.is_freelance()
+        user = self.request.user
+        return user.is_admin_app() or (user.is_freelance() and user.is_freelance_pro)
     
     def get_form_kwargs(self):
         """ Passo l'utente al form """
@@ -95,10 +97,18 @@ class ClienteUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = ClienteForm
     template_name = "gestione_clienti/cliente_form.html"
     success_url = reverse_lazy("cliente-list") # Redirect alla lista dei clienti
-    
+
+# modifico per freelance pro    
     def test_func(self):
         cliente = self.get_object()
-        return self.request.user.is_admin_app() or cliente.freelance == self.request.user
+        user = self.request.user
+
+        if user.is_admin_app():
+            return True
+        elif user.is_freelance() and user.is_freelance_pro and cliente.freelance == user:
+            return True
+        return False  # Freelance limitato e altri → bloccati
+
 
 # Eliminazione Cliente (Solo Admin)
 class ClienteDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

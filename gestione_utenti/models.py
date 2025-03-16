@@ -35,6 +35,10 @@ class User(AbstractUser):
     
     is_staff = models.BooleanField(default=False)  # Modificato per evitare errori con il superuser
     
+    #aggiungo un tipo di freelance pro con più permessi
+    is_freelance_pro = models.BooleanField(default=False, verbose_name="Freelance Pro (accesso backend)")
+
+    
     # Risolvo il conflitto con `auth.User.groups`
     groups = models.ManyToManyField(
         Group,

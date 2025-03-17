@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4#ef$j)o9o8+_nm&u2qj1@=k5@9sx%k$wq&@@*ev&x%xf)(+ho'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True # Solo con DEBUG=False Django mostra 404 custom
+DEBUG = False # Solo con DEBUG=False Django mostra 404 custom
 
 ALLOWED_HOSTS = ['*'] # Per test locale, usa '*' o ['127.0.0.1', 'localhost']
 
@@ -51,6 +51,7 @@ LOGIN_URL = '/login/'                      # Se non loggato, va alla pagina di l
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Per gestire static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -60,6 +61,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'freelancer_manager_pro.urls'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'# Per gestire static files
+
 
 TEMPLATES = [
     {
@@ -137,3 +141,5 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'

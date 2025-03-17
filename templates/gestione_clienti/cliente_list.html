@@ -1,26 +1,49 @@
 {% extends "base.html" %}
-{% block title %}Lista Clienti{% endblock %}
+{% block title %}Elenco Clienti | Freelancer Manager Pro{% endblock %}
 
 {% block content %}
-<div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold text-blue-900">Lista Clienti</h2>
-    <a href="{% url 'cliente-create' %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-        ➕ Aggiungi Cliente
-    </a>
-</div>
+<section class="py-20 bg-white px-4">
+  <div class="max-w-7xl mx-auto">
 
-<ul class="space-y-3">
-    {% for cliente in clienti %}
-        <li class="p-4 bg-gray-50 rounded shadow hover:bg-green-50 transition">
-            <a href="{% url 'cliente-detail' cliente.id %}" class="text-blue-800 font-semibold text-lg">
-                {{ cliente.nome }}
-            </a>
-            <p class="text-gray-600 text-sm">{{ cliente.email }}</p>
-        </li>
-    {% empty %}
-        <p class="text-red-500 font-semibold">❌ Nessun cliente disponibile.</p>
-    {% endfor %}
-</ul>
+    <!-- Header + Aggiungi Cliente -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-12">
+      <h1 class="text-3xl font-bold text-[#1e3a8a]">Elenco Clienti</h1>
+      <a href="{% url 'cliente-create' %}" class="mt-4 md:mt-0 inline-block bg-green-400 text-white px-6 py-2 rounded hover:bg-green-500 transition font-semibold">➕ Aggiungi Cliente</a>
+    </div>
+
+    <!-- Tabella Clienti -->
+    <div class="bg-gray-100 p-4 rounded shadow overflow-x-auto">
+      <table class="min-w-full">
+        <thead>
+          <tr class="text-left text-[#1e3a8a]">
+            <th class="p-2">Nome</th>
+            <th class="p-2">Azienda</th>
+            <th class="p-2">Email</th>
+            <th class="p-2">Azioni</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cliente in clienti %}
+          <tr class="border-t border-gray-200">
+            <td class="p-2">{{ cliente.user.first_name }} {{ cliente.user.last_name }}</td>
+            <td class="p-2">{{ cliente.azienda }}</td>
+            <td class="p-2">{{ cliente.email }}</td>
+            <td class="p-2 space-x-2">
+              <a href="{% url 'cliente-detail' cliente.pk %}" class="bg-blue-100 text-blue-800 px-3 py-1 rounded text-sm hover:bg-blue-200">👁️</a>
+              <a href="{% url 'cliente-update' cliente.pk %}" class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded text-sm hover:bg-yellow-200">✏️</a>
+              <a href="{% url 'cliente-delete' cliente.pk %}" class="bg-red-100 text-red-800 px-3 py-1 rounded text-sm hover:bg-red-200">🗑️</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="p-2 text-gray-500">Nessun cliente disponibile.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
 {% endblock %}
+
 
 

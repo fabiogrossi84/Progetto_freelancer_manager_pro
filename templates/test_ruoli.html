@@ -1,36 +1,48 @@
 {% extends "base.html" %}
-{% block title %}Test Ruoli e Menu{% endblock %}
+{% block title %}Test Ruoli | Freelancer Manager Pro{% endblock %}
 
 {% block content %}
-<div class="bg-white p-6 rounded shadow max-w-xl mx-auto">
-    <h2 class="text-2xl font-bold text-blue-900 mb-4">🔍 Test Ruolo Attuale</h2>
+<section class="py-20 bg-white px-4">
+  <div class="max-w-5xl mx-auto">
 
-    <p class="text-gray-700 mb-2"><strong>Utente:</strong> {{ request.user.username }}</p>
-    <p class="text-gray-700 mb-2"><strong>Ruolo:</strong> 
-        {% if request.user.ruolo == "A" %}
-            <span class="text-green-600 font-semibold">Admin</span>
-        {% elif request.user.ruolo == "F" %}
-            <span class="text-green-600 font-semibold">Freelance</span> 
-            {% if request.user.freelancepro %}
-                <span class="text-blue-600">(Pro)</span>
-            {% else %}
-                <span class="text-gray-500">(Limitato)</span>
-            {% endif %}
-        {% elif request.user.ruolo == "C" %}
-            <span class="text-green-600 font-semibold">Cliente</span>
-        {% endif %}
-    </p>
+    <h1 class="text-3xl font-bold text-[#1e3a8a] mb-8 text-center">Test Ruoli e Menu Dinamico</h1>
 
-    <hr class="my-4">
+    {% if request.user.is_authenticated %}
+      <div class="bg-gray-100 p-6 rounded shadow mb-12">
+        <h2 class="text-xl font-bold text-[#1e3a8a] mb-4">Ruolo Attuale: 
+          <span class="text-green-500">{{ request.user.get_ruolo_display }}</span>
+        </h2>
+        <p class="text-gray-700 mb-4">Menu e funzionalità disponibili per questo ruolo:</p>
 
-    <h3 class="text-lg font-semibold text-blue-800 mb-2">🔗 Link Rapidi per Test:</h3>
-    <ul class="space-y-2 text-blue-700">
-        {% if request.user.ruolo == "C" %}
-            <li><a href="{% url 'dashboard_cliente' %}" class="underline hover:text-green-600">🏠 Vai alla Dashboard Cliente</a></li>
-            <li><a href="{% url 'password_change' %}" class="underline hover:text-green-600">🔒 Cambia Password</a></li>
-        {% elif request.user.ruolo == "A" or request.user.ruolo == "F" %}
-            <li><a href="{% url 'cliente-list' %}" class="underline hover:text-green-600">📁 Lista Clienti</a></li>
-        {% endif %}
-    </ul>
-</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          {% if request.user.ruolo == "A" %}
+            <a href="{% url 'cliente-list' %}" class="bg-green-400 text-white px-4 py-3 rounded hover:bg-green-500 transition font-semibold text-center">📂 Gestione Clienti</a>
+            <a href="#" class="bg-green-400 text-white px-4 py-3 rounded hover:bg-green-500 transition font-semibold text-center">🗂️ Progetti</a>
+            <a href="#" class="bg-green-400 text-white px-4 py-3 rounded hover:bg-green-500 transition font-semibold text-center">🎫 Ticket</a>
+            <a href="#" class="bg-green-400 text-white px-4 py-3 rounded hover:bg-green-500 transition font-semibold text-center">💳 Fatture</a>
+
+          {% elif request.user.ruolo == "F" %}
+            <a href="{% url 'cliente-list' %}" class="bg-green-400 text-white px-4 py-3 rounded hover:bg-green-500 transition font-semibold text-center">📂 Clienti Assegnati</a>
+            <a href="#" class="bg-green-400 text-white px-4 py-3 rounded hover:bg-green-500 transition font-semibold text-center">🗂️ Progetti</a>
+            <a href="#" class="bg-green-400 text-white px-4 py-3 rounded hover:bg-green-500 transition font-semibold text-center">🎫 Ticket</a>
+
+          {% elif request.user.ruolo == "C" %}
+            <a href="{% url 'dashboard_cliente' %}" class="bg-green-400 text-white px-4 py-3 rounded hover:bg-green-500 transition font-semibold text-center">📊 Dashboard</a>
+            <a href="#" class="bg-green-400 text-white px-4 py-3 rounded hover:bg-green-500 transition font-semibold text-center">🗂️ Progetti</a>
+            <a href="#" class="bg-green-400 text-white px-4 py-3 rounded hover:bg-green-500 transition font-semibold text-center">🎫 Ticket</a>
+            <a href="#" class="bg-green-400 text-white px-4 py-3 rounded hover:bg-green-500 transition font-semibold text-center">💳 Fatture</a>
+          {% endif %}
+
+        </div>
+      </div>
+
+    {% else %}
+      <p class="text-red-600 font-semibold text-center">Effettua il login per testare i ruoli.</p>
+    {% endif %}
+
+  </div>
+</section>
 {% endblock %}
+
+

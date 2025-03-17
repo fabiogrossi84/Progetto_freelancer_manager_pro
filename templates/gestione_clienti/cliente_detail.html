@@ -1,25 +1,39 @@
 {% extends "base.html" %}
-{% block title %}Dettaglio Cliente{% endblock %}
+{% block title %}Dettaglio Cliente | Freelancer Manager Pro{% endblock %}
 
 {% block content %}
-<div class="bg-white p-6 rounded shadow">
-    <h1 class="text-2xl font-bold text-blue-900 mb-4">{{ cliente.nome }}</h1>
+<section class="py-20 bg-white px-4">
+  <div class="max-w-4xl mx-auto">
 
-    <div class="space-y-2 text-gray-700">
-        <p><strong>Email:</strong> {{ cliente.email }}</p>
-        <p><strong>Azienda:</strong> {{ cliente.azienda }}</p>
-        <p><strong>Telefono:</strong> {{ cliente.telefono_fisso }} / {{ cliente.cellulare }}</p>
-        <p><strong>Registrato il:</strong> {{ cliente.data_creazione|date:"d/m/Y" }}</p>
+    <!-- Titolo + Azioni -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-12">
+      <h1 class="text-3xl font-bold text-[#1e3a8a]">Dettaglio Cliente</h1>
+      <div class="mt-4 md:mt-0 space-x-2">
+        <a href="{% url 'cliente-update' cliente.pk %}" class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded hover:bg-yellow-200 transition font-semibold">✏️ Modifica</a>
+        <a href="{% url 'cliente-delete' cliente.pk %}" class="bg-red-100 text-red-800 px-4 py-2 rounded hover:bg-red-200 transition font-semibold">🗑️ Elimina</a>
+      </div>
     </div>
 
-    <div class="mt-6 flex space-x-4">
-        <a href="{% url 'cliente-update' cliente.id %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-            ✏️ Modifica
-        </a>
-        <a href="{% url 'cliente-delete' cliente.id %}" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">
-            🗑 Elimina
-        </a>
+    <!-- Dati Cliente -->
+    <div class="bg-gray-100 p-6 rounded shadow mb-12">
+      <h2 class="text-2xl font-bold text-[#1e3a8a] mb-4">Informazioni</h2>
+      <ul class="text-gray-700 space-y-2">
+        <li><strong>Nome:</strong> {{ cliente.user.first_name }} {{ cliente.user.last_name }}</li>
+        <li><strong>Email:</strong> {{ cliente.email }}</li>
+        <li><strong>Azienda:</strong> {{ cliente.azienda }}</li>
+        <li><strong>Telefono:</strong> {{ cliente.telefono }}</li>
+        <li><strong>Indirizzo:</strong> {{ cliente.indirizzo }}</li>
+        <li><strong>Creato il:</strong> {{ cliente.data_creazione|date:"d/m/Y" }}</li>
+      </ul>
     </div>
-</div>
+
+    <!-- Azione Veloce -->
+    <div class="text-center">
+      <a href="{% url 'cliente-list' %}" class="bg-green-400 text-white px-6 py-3 rounded hover:bg-green-500 transition font-semibold">⬅️ Torna all'elenco</a>
+    </div>
+
+  </div>
+</section>
 {% endblock %}
+
 

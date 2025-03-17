@@ -1,25 +1,35 @@
 {% extends "base.html" %}
-{% block title %}Login | Freelancer Manager{% endblock %}
+{% block title %}Accedi | Freelancer Manager Pro{% endblock %}
 
 {% block content %}
-<div class="flex items-center justify-center min-h-screen bg-gray-100 py-12">
-  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
-    <h2 class="text-2xl font-bold text-blue-900 mb-6 text-center">Accedi al tuo account</h2>
+<section class="py-20 bg-white px-4">
+  <div class="max-w-md mx-auto bg-gray-100 p-6 rounded shadow">
+
+    <h1 class="text-3xl font-bold text-[#1e3a8a] mb-6 text-center">Accedi al tuo Account</h1>
+
+    {% if form.errors %}
+      <div class="bg-red-100 border border-red-300 text-red-700 px-4 py-2 rounded mb-4">
+        Credenziali non valide. Riprova.
+      </div>
+    {% endif %}
 
     <form method="post" class="space-y-4">
       {% csrf_token %}
-      {{ form.as_p }}
-
-      <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition">
-        🔐 Login
+      <div>
+        <label class="block font-semibold text-[#1e3a8a] mb-1">Username:</label>
+        {{ form.username }}
+      </div>
+      <div>
+        <label class="block font-semibold text-[#1e3a8a] mb-1">Password:</label>
+        {{ form.password }}
+      </div>
+      <button type="submit" class="bg-green-400 text-white px-6 py-2 rounded hover:bg-green-500 transition font-semibold w-full">
+        🔐 Accedi
       </button>
     </form>
 
-    {% if form.errors %}
-      <p class="text-red-500 mt-4 text-center">⚠ Email o password non validi. Riprova.</p>
-    {% endif %}
   </div>
-</div>
+</section>
 {% endblock %}
 
 

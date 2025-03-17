@@ -4,15 +4,15 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="py-20 bg-white text-center">
-  <h1 class="text-5xl font-bold text-[#1e3a8a] mb-6">Gestisci Clienti, Progetti e Fatture in un Unico Posto</h1>
+<section class="py-20 bg-white text-center px-4">
+  <h1 class="text-4xl md:text-5xl font-bold text-[#1e3a8a] mb-6">Gestisci Clienti, Progetti e Fatture in un Unico Posto</h1>
   <p class="text-gray-700 text-lg max-w-3xl mx-auto">
     Freelancer Manager Pro è la piattaforma CRM pensata per freelance e team moderni. Organizza, collabora e scala la tua attività in modo semplice e professionale.
   </p>
 </section>
 
 <!-- Feature Section -->
-<section class="py-16 bg-gray-100">
+<section class="py-16 bg-green-50">
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
     <div class="bg-white p-6 rounded shadow text-center">
       <img src="https://cdn-icons-png.flaticon.com/512/1250/1250689.png" alt="Gestione Clienti" class="w-16 h-16 mx-auto mb-4">
@@ -32,11 +32,11 @@
   </div>
 
   <!-- Bottoni azione -->
-  <div class="text-center mt-12 flex flex-col md:flex-row justify-center gap-6">
-    <a href="#" class="inline-block bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 transition font-semibold">
+  <div class="text-center mt-12 flex flex-wrap justify-center gap-4">
+    <a href="#" class="bg-green-400 text-white px-6 py-3 rounded hover:bg-green-500 transition font-semibold">
       🔍 Scopri di più
     </a>
-    <a href="{% url 'test_ruoli' %}" class="inline-block bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 transition font-semibold">
+    <a href="/test-ruoli/" class="bg-green-400 text-white px-6 py-3 rounded hover:bg-green-500 transition font-semibold">
       🧪 Test Ruoli/Menu
     </a>
   </div>
@@ -45,39 +45,138 @@
 <!-- Dashboard Preview -->
 <section class="py-20 bg-white">
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-    <div>
+    <div class="bg-gray-100 p-6 rounded shadow">
+      <span class="text-green-600 text-sm uppercase font-bold">Performance in tempo reale</span>
       <h2 class="text-3xl font-bold text-[#1e3a8a] mb-4">Dashboard Interattiva</h2>
-      <p class="text-gray-700 mb-4">Visualizza KPI, ticket aperti, progetti attivi e fatture in tempo reale. Personalizza i widget per adattarli al tuo stile di lavoro.</p>
-      <ul class="list-disc list-inside text-gray-600">
-        <li>Grafici dinamici e timeline attività</li>
-        <li>Filtri rapidi per clienti e progetti</li>
-        <li>Statistiche giornaliere e mensili</li>
+      <p class="text-gray-700 mb-4 max-w-xl">Controlla tutti i tuoi KPI in una sola vista. Gestisci progetti, ticket e fatture in modo visivo, rapido ed efficace.</p>
+      <ul class="list-disc list-inside text-gray-600 mb-4 max-w-xl">
+        <li>Grafici dinamici e timeline delle attività</li>
+        <li>Filtri veloci per clienti e progetti</li>
+        <li>Statistiche in tempo reale</li>
       </ul>
+      <a href="#" class="bg-green-400 text-white px-6 py-3 rounded hover:bg-green-500 transition font-semibold">
+        Esplora la Dashboard
+      </a>
     </div>
-    <div>
-      <img src="{% static 'images/dashboard_custom.png' %}" alt="Dashboard CRM" class="rounded shadow-lg">
+    <div class="text-center">
+      <img src="{% static 'images/dashboard_custom.png' %}" alt="Dashboard CRM" class="rounded shadow-lg max-w-md w-full mx-auto">
     </div>
   </div>
 </section>
 
 <!-- Collaborazione Section -->
-<section class="py-20 bg-gray-100">
+<section class="py-20 bg-indigo-50">
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-    <div>
-      <img src="{% static 'images/team_collaboration.png' %}" alt="Collaborazione Team" class="rounded shadow-lg">
+    <div class="text-center">
+      <img src="{% static 'images/team_collaboration.png' %}" alt="Collaborazione Team" class="rounded shadow-lg max-w-md w-full mx-auto">
     </div>
-    <div>
-      <h2 class="text-3xl font-bold text-[#1e3a8a] mb-4">Collaborazione e Sicurezza</h2>
-      <p class="text-gray-700 mb-4">Lavora in team, assegna ruoli e monitora attività in tempo reale. Garantisci la sicurezza con accessi controllati e backup automatici.</p>
-      <ul class="list-disc list-inside text-gray-600">
-        <li>Storico attività dettagliato</li>
+    <div class="bg-white p-6 rounded shadow">
+      <span class="text-indigo-400 text-sm uppercase font-bold">Team e Sicurezza</span>
+      <h2 class="text-3xl font-bold text-[#1e3a8a] mb-4">Collaborazione e Controllo Totale</h2>
+      <p class="text-gray-700 mb-4 max-w-xl">Gestisci ruoli, traccia attività, garantisci la sicurezza. Ogni team lavora in sinergia, con massima trasparenza e controllo.</p>
+      <ul class="list-disc list-inside text-gray-600 mb-4 max-w-xl">
         <li>Gestione avanzata dei permessi</li>
-        <li>Crittografia e backup sicuri</li>
+        <li>Storico attività dettagliato</li>
+        <li>Backup sicuri e crittografia dei dati</li>
       </ul>
+      <a href="#" class="bg-indigo-200 text-[#1f2937] px-6 py-3 rounded hover:bg-indigo-300 transition font-semibold">
+        Scopri la Collaborazione
+      </a>
     </div>
   </div>
 </section>
+
+<!-- Numeri e Statistiche -->
+<section class="py-20 bg-white text-center px-4">
+  <h2 class="text-3xl font-bold text-[#1e3a8a] mb-12">I Nostri Risultati</h2>
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div>
+      <p class="text-4xl font-bold text-green-500">+150</p>
+      <p class="text-gray-700">Clienti attivi</p>
+    </div>
+    <div>
+      <p class="text-4xl font-bold text-green-500">+800</p>
+      <p class="text-gray-700">Ticket risolti</p>
+    </div>
+    <div>
+      <p class="text-4xl font-bold text-green-500">+120</p>
+      <p class="text-gray-700">Progetti completati</p>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonianze Clienti -->
+<section class="py-20 bg-green-50 text-center px-4">
+  <h2 class="text-3xl font-bold text-[#1e3a8a] mb-12">Cosa dicono i nostri clienti</h2>
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="bg-white p-6 rounded shadow">
+      <p class="text-gray-600 italic">"Una piattaforma intuitiva e completa. Gestisco tutto in un unico posto!"</p>
+      <p class="mt-4 font-semibold text-[#1e3a8a]">Anna R. - Web Agency</p>
+    </div>
+    <div class="bg-white p-6 rounded shadow">
+      <p class="text-gray-600 italic">"Ottimo supporto e funzionalità avanzate. Consigliato a ogni freelance!"</p>
+      <p class="mt-4 font-semibold text-[#1e3a8a]">Marco T. - Consulente IT</p>
+    </div>
+    <div class="bg-white p-6 rounded shadow">
+      <p class="text-gray-600 italic">"Finalmente posso gestire clienti, ticket e fatture senza stress."</p>
+      <p class="mt-4 font-semibold text-[#1e3a8a]">Laura B. - Designer</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- FAQ con Fisarmonica -->
+<section class="py-20 bg-white px-4">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <!-- Domande a sinistra -->
+      <div class="bg-gray-100 p-6 rounded shadow">
+        <h2 class="text-3xl font-bold text-[#1e3a8a] mb-6 text-center md:text-left">Domande Frequenti</h2>
+        <div class="space-y-4">
+          <details class="bg-white rounded p-4 border border-gray-300">
+            <summary class="cursor-pointer font-semibold text-[#1e3a8a] flex items-center justify-between">
+              📊 Posso personalizzare i progetti?
+              <span class="ml-2 text-lg font-bold">+</span>
+            </summary>
+            <p class="text-gray-700 mt-2">Sì, ogni progetto ha opzioni di stato, scadenza e assegnazione freelance personalizzabili.</p>
+          </details>
+          <details class="bg-white rounded p-4 border border-gray-300">
+            <summary class="cursor-pointer font-semibold text-[#1e3a8a] flex items-center justify-between">
+              💰 Come gestisco le fatture?
+              <span class="ml-2 text-lg font-bold">+</span>
+            </summary>
+            <p class="text-gray-700 mt-2">Puoi creare fatture per progetti e ticket, monitorare lo stato e scaricarle in PDF.</p>
+          </details>
+          <details class="bg-white rounded p-4 border border-gray-300">
+            <summary class="cursor-pointer font-semibold text-[#1e3a8a] flex items-center justify-between">
+              🚀 Il CRM è adatto a team?
+              <span class="ml-2 text-lg font-bold">+</span>
+            </summary>
+            <p class="text-gray-700 mt-2">Certo! Puoi gestire utenti con ruoli e permessi, monitorare attività e collaborare in tempo reale.</p>
+          </details>
+        </div>
+      </div>
+  
+  
+      <!-- Immagine a destra -->
+      <div class="text-center">
+        <img src="{% static 'images/freelance.png' %}" alt="Domande Freelance" class="rounded shadow-lg max-w-md w-full mx-auto">
+      </div>
+    </div>
+  </section>
+  
+  <!-- Call to Action Finale -->
+  <section class="py-32 bg-indigo-50 text-center px-4">
+    <h2 class="text-3xl font-bold text-[#1e3a8a] mb-12">Pronto a gestire il tuo business in modo professionale?</h2>
+    <a href="#" class="bg-indigo-400 text-white px-6 py-3 rounded hover:bg-indigo-500 transition font-semibold text-lg">
+      🚀 Inizia Ora
+    </a>
+  </section>
 {% endblock %}
+
+
+
+
+
 
 
 

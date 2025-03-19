@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from django.contrib.auth.hashers import make_password
 from gestione_utenti.models import User
 from .models import Cliente
+from django.core.mail import send_mail # importo la funzione per inviare mail
 # from django.utils.crypto import get_random_string
 
 @receiver(post_save, sender=Cliente)
@@ -27,6 +28,21 @@ def crea_utente_cliente(sender, instance, created, **kwargs):
         
         instance.user = user  # Collega il Cliente al suo User 
         instance.save(update_fields=['user'])  # Salva il Cliente aggiornato
+        
+        # Invio mail al cliente con le credenziali
+        subject = 'Benvenuto su Freelancer Manager Pro'
+        message = (
+            f"Ciao {instance.nome},\n\n"
+            f"Il tuo account è stato creato.\n\n"
+            f"Email: {instance.email}\n"
+            f"Password: cliente-123\n\n"
+            f"Accedi e cambia subito la password.\n\n"
+            f"Grazie per aver scelto Freelancer Manager Pro!"
+        )
+        
+        send_mail(subject, message, 'Freelancer Manager <noreply@freelancermanager.com>', [instance.email])
+        
+        print(f"Email inviata via console a {instance.email} con password cliente-123.")
         
         print(f"Cliente {instance.nome} registrato. Email: {instance.email} - Password: {password_generata}")
 

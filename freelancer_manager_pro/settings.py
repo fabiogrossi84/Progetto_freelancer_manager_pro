@@ -143,3 +143,8 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+#Mail settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Per vedere le mail in console
+
+DEFAULT_FROM_EMAIL = 'noreply@freelancermanager.com' # Indirizzo mittente

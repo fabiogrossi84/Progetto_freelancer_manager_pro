@@ -1,1 +1,19 @@
+# Ambiente virtuale (Windows + Linux)
 venv/
+env/
+ENV/
+VENV/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*.so
+
+# File temporanei
+*.swp
+*.swo
+*.bak
+
+# File di sistema
+.DS_Store
+Thumbs.db

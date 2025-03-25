@@ -70,7 +70,9 @@ class Progetto(models.Model):
     ore_lavorate = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)
     data_creazione = models.DateTimeField(auto_now_add=True)
     scadenza = models.DateField(blank=True, null=True)
+    avanzamento_percentuale = models.PositiveSmallIntegerField(default=0)
 
+    
     class Meta:
         verbose_name = "Progetto"
         verbose_name_plural = "Progetti"

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Cliente
+from .models import Cliente, Progetto
 from gestione_utenti.models import User
 
 class ClienteForm(forms.ModelForm):
@@ -24,3 +24,34 @@ class ClienteForm(forms.ModelForm):
         if user and user.is_freelance():
             self.fields["freelance"].initial = user
             self.fields["freelance"].widget = forms.HiddenInput()
+            
+#Form per progetto
+
+class ProgettoForm(forms.ModelForm):
+    class Meta:
+        model = Progetto
+        fields = [
+            "nome",
+            "cliente",
+            "freelance",
+            "descrizione",
+            "stato",
+            "budget",
+            "ore_lavorate",
+            "scadenza",
+            "avanzamento_percentuale",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
+        super(ProgettoForm, self).__init__(*args, **kwargs)
+
+        if user:
+            if user.is_freelance():
+                # Freelance può vedere solo i suoi clienti
+                self.fields["cliente"].queryset = user.clienti_gestiti.all()
+                # Freelance non può modificare il campo freelance
+                self.fields["freelance"].widget = forms.HiddenInput()
+            elif user.is_admin_app():
+                # Admin vede tutti i freelance
+                self.fields["freelance"].queryset = User.objects.filter(ruolo="F")

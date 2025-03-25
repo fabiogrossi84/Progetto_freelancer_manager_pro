@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Cliente
-from .forms import ClienteForm
+from .models import Cliente, Progetto
+from .forms import ClienteForm, ProgettoForm
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.contrib import messages
 
@@ -195,3 +195,23 @@ class CustomPasswordChangeView(PasswordChangeView):
         messages.success(self.request, "✅ Password modificata con successo!")
         return response    
         
+# Lista Progetti (Solo Admin e Freelance vedono i propri progetti)       
+class ProgettoCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Progetto
+    form_class = ProgettoForm
+    template_name = "gestione_clienti/progetto_form.html"
+    success_url = reverse_lazy("progetto-list")
+
+    def test_func(self):
+        return self.request.user.is_admin_app() or self.request.user.is_freelance()
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user  # Passa l'utente corrente al form
+        return kwargs
+
+    def form_valid(self, form):
+        # Se è un freelance → assegniamo il freelance corrente
+        if self.request.user.is_freelance():
+            form.instance.freelance = self.request.user
+        return super().form_valid(form)        

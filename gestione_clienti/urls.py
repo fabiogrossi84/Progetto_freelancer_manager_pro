@@ -1,5 +1,5 @@
 from django.urls import path, reverse_lazy
-from .views import ClienteListView, ClienteDetailView, ClienteCreateView, ClienteUpdateView, ClienteDeleteView, CustomPasswordChangeView, dashboard_cliente, CustomLoginView
+from .views import ClienteListView, ClienteDetailView, ClienteCreateView, ClienteUpdateView, ClienteDeleteView, CustomPasswordChangeView, dashboard_cliente, CustomLoginView, ProgettoCreateView
 from django.contrib.auth import views as auth_views # Importo le viste di autenticazione di Django
 
 urlpatterns = [
@@ -17,4 +17,6 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(template_name='registration/login.html'), name='login'),
 
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    #Percorso per creare un nuovo progetto
+    path("progetti/nuovo/", ProgettoCreateView.as_view(), name="progetto-create"),
 ]

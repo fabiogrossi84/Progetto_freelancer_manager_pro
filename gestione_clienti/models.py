@@ -61,11 +61,13 @@ class Progetto(models.Model):
         IN_CORSO = 'IC', 'In Corso'
         COMPLETATO = 'CO', 'Completato'
 
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name="progetti")
     nome = models.CharField(max_length=255)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name="progetti")
+    freelance = models.ForeignKey("gestione_utenti.User", on_delete=models.CASCADE, limit_choices_to={'ruolo': 'F'}, related_name="progetti_gestiti")
     descrizione = models.TextField(blank=True, null=True)
     stato = models.CharField(max_length=2, choices=StatoProgetto.choices, default=StatoProgetto.IN_ATTESA)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
+    ore_lavorate = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)
     data_creazione = models.DateTimeField(auto_now_add=True)
     scadenza = models.DateField(blank=True, null=True)
 
